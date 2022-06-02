@@ -22,3 +22,7 @@ This is the screenshot after a password was generated.
 ---
 
 ## Links
+
+[My git hub page](https://github.com/Yoko-cyer/Module3-challenge-Password-Generator)
+
+[Deployed Site](https://cheery-melba-85f40a.netlify.app/)
