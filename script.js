@@ -84,7 +84,7 @@ generatorButton.addEventListener('click', function(event){
     
     // add this random character to password
     // shorthand for password = password + randomCharacter 
-    password = password + randomCharacter;
+    password += randomCharacter;
   }
   console.log(password);
 
