@@ -17,8 +17,9 @@ function askPasswordLength() {
   const passswordNotInaRange = passwordLength < 8 || passwordLength > 128;
   
   if(passswordIsNan || passwordNotEntered || passswordNotInaRange){
-    return passwordLength;
+    return askPasswordLength();
   }
+  return passwordLength;
 }
 
 function askCriteria() {
@@ -31,35 +32,62 @@ function askCriteria() {
   // ask so you want numbers y/n
   const numbersWanted = confirm("Do you want numbers?");
   
-  // user needs to sselect at lease one criteria 
-  // if user did not, reask the criteria questions again 
+  // user needs to select at lease one criteria
+  if (lowerCaseWanted || upperCaseWanted || symbolsWanted || numbersWanted) {
 
+    return {
+      // object - short hand of lowercaseWanted: lowercasewanted,
+      lowerCaseWanted,
+      upperCaseWanted,
+      symbolsWanted,
+      numbersWanted,
+    };
+
+  } 
+  
+  // if user did not, reask the criteria questions again 
+  return askCriteria();
 }
 
 // when user clicks on the password generator button
 
 generatorButton.addEventListener('click', function(event){
-  const passwordLength = askPasswordLength();
-  // geerate the password
   
-  // show the passsword on the DOM textarea
+  const passwordLength = askPasswordLength();
+  const criteria = askCriteria();
+  // generate the password
+  // build the character set
+  let characterSet = "";
 
+  if(criteria.lowerCaseWanted){
+    characterSet = characterSet + "abcdefghijklmnopqrstuvwxyz";
+  }
 
+  if(criteria.upperCaseWanted){
+    characterSet = characterSet + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  }
+
+  if(criteria.symbolsWanted){
+    characterSet = characterSet + "!@#$%^&";
+  }
+
+  if(criteria.numbersWanted){
+    characterSet = characterSet + "0123456789";
+  }
+
+  // generate the random password based on the character set
+  let password = "";
+
+  // loop for passwordLength times
+  for (let index = 0; index < passwordLength; index++) {
+    const randomCharacter = characterSet[ Math.floor(Math.random() * characterSet.length)] 
+    
+    // add this random character to password
+    // shorthand for password = password + randomCharacter 
+    password = password + randomCharacter;
+  }
+  console.log(password);
+
+  // show the password on the DOM textarea
+  document.getElementById('password').value = password;
 });
-
- 
-
-// // Get references to the #generate element
-// var generateBtn = document.querySelector("#generate");
-
-// // Write password to the #password input
-// function writePassword() {
-//   var password = generatePassword();
-//   var passwordText = document.querySelector("#password");
-
-//   passwordText.value = password;
-
-// }
-
-// // Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
